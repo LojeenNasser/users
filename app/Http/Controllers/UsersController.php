@@ -6,36 +6,23 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UserRequest;
 use \Yajra\Datatables\Datatables;
 
 class UsersController extends Controller
 {
-    protected $rules = [
-        'name' => 'required|max:255',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required|min:8',
-    ];
-
     public function index(Request $request)
     {
-        // $users = User::all();
-        // return view('users.index', compact('users'));
         if ($request->ajax()) {
-            $data = User::latest()->get();
-            return Datatables::of($data)
+            $data = User::latest();
+            return datatables()->of($data)
                 ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-
-                    $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
-
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+                ->addColumn('action', fn ($row)
+                =>
+                '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>')->rawColumns(['action'])->make(true);
         }
 
         return view('users.index');
-
     }
 
     public function create()
@@ -43,10 +30,10 @@ class UsersController extends Controller
         return view('users.create');
     }
 
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $this->validate($request, $this->rules);
-        User::create($request->all());
+
+        User::create($request->validated());
         return redirect()->route('dashboard');
     }
 
@@ -59,16 +46,15 @@ class UsersController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, $this->rules);
         $user = User::findOrFail($id);
-        $user->update($request->all());
-        return redirect()->route('users.index');
+        $user->update($request->validated());
+        return redirect()->route('dashboard.users.index');
     }
 
     public function destroy($id)
     {
         $user = User::findOrFail($id);
         $user->delete();
-        return redirect()->route('users.index');
+        return redirect()->route('dashboard.users.index');
     }
 }

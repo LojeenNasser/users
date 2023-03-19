@@ -51,30 +51,24 @@
                         <span class="arrow open"></span>
                     </a>
                     <ul class="sub-menu">
-                        <li class="nav-item start active open">
-                            <a href="index.html"
+                        <li class="nav-item start {{ Route::currentRouteName()=='dashboard.index'?'active open':'' }}">
+                            <a href="{{ route('dashboard.index') }}" class="nav-link  ">
+                                <i class="icon-bulb"></i>
+                                <span class="title">Dashboard</span>
+                                <span class="badge badge-success"></span>
+                            </a>
+                        </li>
+                        <li class="nav-item start
+                         {{ Route::currentRouteName()=='dashboard.users.index'?'active open':'' }} ">
+                            <a href="{{ route('dashboard.users.index') }}"
                                 class="nav-link ">
                                 <i class="icon-bar-chart"></i>
-                                <span class="title">Dashboard 1</span>
+                                <span class="title">Users</span>
                                 <span class="selected"></span>
                             </a>
                         </li>
-                        <li class="nav-item start ">
-                            <a href="dashboard_2.html"
-                                class="nav-link ">
-                                <i class="icon-bulb"></i>
-                                <span class="title">Dashboard 2</span>
-                                <span class="badge badge-success">1</span>
-                            </a>
-                        </li>
-                        <li class="nav-item start ">
-                            <a href="dashboard_3.html"
-                                class="nav-link ">
-                                <i class="icon-graph"></i>
-                                <span class="title">Dashboard 3</span>
-                                <span class="badge badge-danger">5</span>
-                            </a>
-                        </li>
+
+                     
                     </ul>
                 </li>
                 <li class="heading">
@@ -88,12 +82,6 @@
                         <span class="arrow"></span>
                     </a>
                     <ul class="sub-menu">
-                        <li class="nav-item  ">
-                            <a href="{{ route('users.index') }}"
-                                class="nav-link ">
-                                <span class="title">Metronic Grid System</span>
-                            </a>
-                        </li>
 
                     </ul>
                 </li>
